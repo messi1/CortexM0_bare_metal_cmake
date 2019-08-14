@@ -2,12 +2,16 @@
 
 function usage() {
     echo "Bad or missing argument!" 
-    echo "Usage: $0 -g dir -b dir -c compiler"
-    echo "	-g dir : Git Base directory"
-    echo "	-b dir : Build directory."
-    echo "	-c [gcc/clang] : Set the cross compiler"
+    echo "Usage: $0 -g <dir> -b <dir> -c compiler"
+    echo "		-g <dir> : Git Base directory"
+    echo "		-b <dir> : Build directory."
+    echo "		-c [gcc/clang] : Set the cross compiler"
 }
 
+if [ "$1" == "" ]; then
+    usage
+    exit 0
+fi
 
 while [ "$1" != "" ]; do
     PARAM=`echo $1 | awk -F= '{print $1}'`
