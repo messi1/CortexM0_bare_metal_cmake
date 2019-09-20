@@ -6,7 +6,6 @@ if(NOT ${PROCESSOR_CONFIG})
 endif()
 
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
-
 set(CMAKE_MODULE_PATH ${CMAKE_SOURCE_DIR}/cmake/processor)
 
 add_executable(${PROJECT_NAME})
@@ -68,7 +67,7 @@ target_link_options(${PROJECT_NAME}
 #		# Add your project specific libs here
 #)
 
-include(${PROCESSOR_CONFIG})
+#include(${PROCESSOR_CONFIG})
 
 if(BUILD_TESTING)
 	add_subdirectory(tests)
