@@ -61,12 +61,13 @@ else
 	exit 0
 fi
 
-if [ -d "$BUILD_$COMPILER" ]; then
-	rm -rf "$BUILD_DIR_$COMPILER"/*
+if [ -d $BUILD_DIR"_"$COMPILER ]; then
+    rm -rf $BUILD_DIR"_"$COMPILER/*
 else
-	mkdir "$BUILD_DIR_$COMPILER"
+    mkdir $BUILD_DIR"_"$COMPILER
+    echo $BUILD_DIR"_"$COMPILER
 fi
 
-cd $BUILD_DIR
-
-cmake -DPROCESSOR_CONFIG=2 -DCMAKE_TOOLCHAIN_FILE=$SOURCE_DIR/cmake/toolchain/$COMPILER-arm-toolchain.cmake $SOURCE_DIR
+cd $BUILD_DIR"_"$COMPILER
+echo "cmake -DPROCESSOR_CONFIG=2 -DCMAKE_TOOLCHAIN_FILE=$SOURCE_DIR/cmake/toolchain/$COMPILER-arm-toolchain.cmake $SOURCE_DIR"
+cmake -DPROCESSOR_CONFIG=LPC11U35 -DCMAKE_TOOLCHAIN_FILE=$SOURCE_DIR/cmake/toolchain/$COMPILER-arm-toolchain.cmake $SOURCE_DIR
