@@ -3,9 +3,11 @@
 function usage() {
     echo "Bad or missing argument!" 
     echo "Usage: $0 -g <dir> -b <dir> -c compiler"
-    echo "		-g <dir> : Git Base directory"
-    echo "		-b <dir> : Build directory."
+    echo "		-g <dir> : Source directory"
+    echo "		-b <dir> : Build directory"
+    echo "		-p <dir> : Path to the compiler"
     echo "		-c [gcc/clang] : Set the cross compiler"
+
 }
 
 if [ "$1" == "" ]; then
@@ -17,7 +19,7 @@ while getopts ":g:b:c:p:" optname
   do
 	case "$optname" in
 	  "g")    
-	        PROJECT_DIR="$OPTARG"
+            SOURCE_DIR="$OPTARG"
 	  	;;
 	  "b")   
             BUILD_DIR="$OPTARG"
@@ -25,7 +27,7 @@ while getopts ":g:b:c:p:" optname
 	  "c")    
             COMPILER="$OPTARG"
 	  	;;
-        "p")
+      "p")
             COMPILER_PATH="$OPTARG"
           ;;
 	   *) 
@@ -35,8 +37,15 @@ while getopts ":g:b:c:p:" optname
 	esac
 done
 
+if [[ "${SOURCE_DIR:0:1}" != / && "${SOURCE_DIR:0:2}" != ~[/a-z] ]]
+then
+    SOURCE_DIR=$(realpath $SOURCE_DIR)
+fi
+
+
 if [ ! -d "$COMPILER_PATH" ]; then
     echo "Path to the compiler does not exist"
+    usage
     exit 0
 fi
 
@@ -60,5 +69,4 @@ fi
 
 cd $BUILD_DIR
 
-cmake -DCMAKE_TOOLCHAIN_FILE=$PROJECT_DIR/cmake/toolchain/$COMPILER-arm-toolchain.cmake $PROJECT_DIR
-
+cmake -DPROCESSOR_CONFIG=2 -DCMAKE_TOOLCHAIN_FILE=$SOURCE_DIR/cmake/toolchain/$COMPILER-arm-toolchain.cmake $SOURCE_DIR
