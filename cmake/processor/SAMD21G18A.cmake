@@ -25,8 +25,8 @@ target_include_directories(${PROJECT_NAME}
 
 target_link_options(${PROJECT_NAME}
 	PRIVATE
-                $<$<CXX_COMPILER_ID:Clang>:-T ${CMAKE_SOURCE_DIR}/lib/linker/atsamd21g18_clang.ld>
-                $<$<CXX_COMPILER_ID:GNU>:-T ${CMAKE_SOURCE_DIR}/lib/linker/atsamd21g18_gcc.ld>
+                $<$<CXX_COMPILER_ID:Clang>:-T ${CMAKE_SOURCE_DIR}/lib/linker/stm32f031x6_clang.ld>
+                $<$<CXX_COMPILER_ID:GNU>:-T ${CMAKE_SOURCE_DIR}/lib/linker/stm32f031x6_gcc.ld>
 )
 
 #target_link_libraries(${PROJECT_NAME}

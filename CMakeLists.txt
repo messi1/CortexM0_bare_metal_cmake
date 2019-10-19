@@ -12,9 +12,6 @@ add_executable(${PROJECT_NAME})
 
 target_sources(${PROJECT_NAME}
     PRIVATE
-        ${CMAKE_SOURCE_DIR}/src/startup/${PROCESSOR_CONFIG}/handlers_cm.cpp
-        ${CMAKE_SOURCE_DIR}/src/startup/${PROCESSOR_CONFIG}/stack.cpp
-        ${CMAKE_SOURCE_DIR}/src/startup/${PROCESSOR_CONFIG}/startup.cpp
         ${CMAKE_SOURCE_DIR}/src/main.cpp
 )
 
@@ -70,7 +67,7 @@ target_link_options(${PROJECT_NAME}
 #		# Add your project specific libs here
 #)
 
-#include(${PROCESSOR_CONFIG})
+include(${PROCESSOR_CONFIG})
 
 if(BUILD_TESTING)
     add_subdirectory(tests)
