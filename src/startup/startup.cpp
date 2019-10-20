@@ -43,20 +43,15 @@ void zero_bss() {
         *dst++ = 0;
     }
 }
-#undef __GNUC__
-#define __clang__ 1
+
 /** Fill heap memory
  */
 void fill_heap(unsigned fill=0x45455246) {
     unsigned *dst = &__heap_start;
     unsigned *msp_reg;
-#if defined (__GNUC__)
+
     __asm__("mrs %0, msp\n" : "=r" (msp_reg) );
-#elif (__clang__)
-    __asm("mrs %0, MSP\n"
-          :
-          "=r" (msp_reg) );
-#endif
+
     while (dst < msp_reg) {
         *dst++ = fill;
     }

@@ -1,8 +1,8 @@
 target_sources(${PROJECT_NAME}
         PRIVATE
-                ${CMAKE_CURRENT_SOURCE_DIR}/src/startup/handlers_cm.cpp
-                ${CMAKE_CURRENT_SOURCE_DIR}/src/startup/stack.cpp
-                ${CMAKE_CURRENT_SOURCE_DIR}/src/startup/startup.cpp
+                ${CMAKE_CURRENT_SOURCE_DIR}/src/Processor/${PROCESSOR_CONFIG}/handlers.cpp
+                ${CMAKE_CURRENT_SOURCE_DIR}/src/Processor/${PROCESSOR_CONFIG}/stack.cpp
+                ${CMAKE_CURRENT_SOURCE_DIR}/src/Processor/${PROCESSOR_CONFIG}/startup.cpp
 )
 
 target_compile_options(${PROJECT_NAME}
