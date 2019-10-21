@@ -69,6 +69,8 @@ target_link_options(${PROJECT_NAME}
 
 include(${PROCESSOR_CONFIG})
 
+include(cmake/generate-binary-file.cmake)
+
 if(BUILD_TESTING)
     add_subdirectory(tests)
 endif()

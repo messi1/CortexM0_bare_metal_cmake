@@ -1,10 +1,6 @@
-extern void __StackTop();
-extern void Reset_Handler();
-
-
 /* make the checksum known to the c compiler, value will be calculated by the linker script */
-void LPC_checksum(void);
-
+void __attribute__((weak)) LPC_checksum(void);
+extern void Reset_Handler();
 /*=======================================================================*/
 /* isr vector */
 /* see page 445 of the LPC11U3x user manual */ 
@@ -21,6 +17,7 @@ extern "C" void __stop() { while (true); }
 // Handlers for Cortex-M core.
 // These handler are with attribute 'weak' and can be overwritten
 // by non-weak function, default is __stop() function
+__attribute__((weak, alias("__stop"))) void __StackTop();
 //__attribute__((weak, alias("__stop"))) void Reset_Handler();
 __attribute__((weak, alias("__stop"))) void NMI_Handler();
 __attribute__((weak, alias("__stop"))) void HardFault_Handler();

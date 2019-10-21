@@ -32,21 +32,17 @@ extern ptr_func_t __fini_array_end[];
   __data_start__/__data_end__: RAM address range that data should be
   copied to. Both must be aligned to 4 bytes boundary.  
 */
-void copy_data() {
-  extern unsigned long __data_start__[];
-  extern unsigned long __data_end__[];
-  extern unsigned long __etext[];
-  unsigned long *ptr   = __etext;
-  unsigned long *start = __data_start__;
-  unsigned long *end   = __data_end__;
 
-  while( start < end )
-  {
-    *start = *ptr;
-    start++;
-    ptr++;
-  }
+/** Copy default data to DATA section
+ */
+void copy_data() {
+    unsigned long *src = &__data_load;
+    unsigned long *dst = &__data_start;
+    while (dst < &__data_end) {
+        *dst++ = *src++;
+    }
 }
+
 
 
 /**
@@ -57,10 +53,8 @@ void copy_data() {
 */
 void zero_bss()
 {
-  extern unsigned long __bss_start__[];
-  extern unsigned long __bss_end__[];
-  unsigned long *ptr = __bss_start__;
-  unsigned long *end = __bss_end__;
+  unsigned long *ptr = &__bss_start;
+  unsigned long *end = &__bss_end;
 
   while( ptr < end )
   {
