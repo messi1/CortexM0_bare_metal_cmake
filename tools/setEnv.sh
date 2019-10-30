@@ -110,3 +110,6 @@ cd $BUILD_DIR
 
 echo "cmake -DPROCESSOR_CONFIG=$PROCESSOR -DCMAKE_TOOLCHAIN_FILE=$SOURCE_DIR/cmake/toolchain/$COMPILER-arm-toolchain.cmake $SOURCE_DIR"
 cmake -DPROCESSOR_CONFIG=$PROCESSOR -DCMAKE_TOOLCHAIN_FILE=$SOURCE_DIR/cmake/toolchain/$COMPILER-arm-toolchain.cmake $SOURCE_DIR
+
+exec bash
+

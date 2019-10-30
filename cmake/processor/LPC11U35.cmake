@@ -1,9 +1,8 @@
-target_sources(${PROJECT_NAME}
-        PRIVATE
-                ${CMAKE_CURRENT_SOURCE_DIR}/src/Processor/${PROCESSOR_CONFIG}/handlers.cpp
-                ${CMAKE_CURRENT_SOURCE_DIR}/src/Processor/${PROCESSOR_CONFIG}/stack.cpp
-                ${CMAKE_CURRENT_SOURCE_DIR}/src/Processor/${PROCESSOR_CONFIG}/startup.cpp
-)
+
+#target_sources(${PROJECT_NAME}
+#        PRIVATE
+# Add your processor specific source files
+#)
 
 target_compile_options(${PROJECT_NAME}
         PRIVATE
@@ -20,13 +19,18 @@ target_compile_options(${PROJECT_NAME}
 
 target_include_directories(${PROJECT_NAME}
         PUBLIC
-                $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
+                $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include/>
 )
 
 target_link_options(${PROJECT_NAME}
         PRIVATE
                 $<$<CXX_COMPILER_ID:Clang>:-T ${CMAKE_SOURCE_DIR}/lib/linker/lpc11u35_clang.ld>
                 $<$<CXX_COMPILER_ID:GNU>:-T ${CMAKE_SOURCE_DIR}/lib/linker/lpc11u35_gcc.ld>
+)
+
+add_custom_target(Linkerscripts SOURCES
+                  lib/linker/lpc11u35_gcc.ld
+                  lib/linker/lpc11u35_clang.ld
 )
 
 #target_link_libraries(${PROJECT_NAME}
