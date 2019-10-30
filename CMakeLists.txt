@@ -63,6 +63,7 @@ target_link_options(${PROJECT_NAME}
         $<$<CXX_COMPILER_ID:GNU>:-nostartfiles> # https://gcc.gnu.org/onlinedocs/gcc/Link-Options.html
         -nodefaultlibs
         -nostdlib
+        -Wl,-Map=output.map
 )
 
 #target_link_libraries(${PROJECT_NAME}
