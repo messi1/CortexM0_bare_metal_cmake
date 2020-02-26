@@ -1,12 +1,11 @@
 cmake_minimum_required(VERSION 3.13)
-project(firmware_${PROCESSOR_CONFIG} VERSION 0.0.1 LANGUAGES CXX)
 
-if( NOT DEFINED PROCESSOR_CONFIG OR "${PROCESSOR_CONFIG}" STREQUAL "" )
-    message(FATAL_ERROR "Please pass the PROCESSOR_CONFIG variable with the cmake command.")
-endif()
+include(cmake/check_for_variables.cmake)
 
-set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
+project(firmware_$ENV{PROCESSOR_CONFIG} VERSION 0.0.1 LANGUAGES CXX)
+
 set(CMAKE_MODULE_PATH ${CMAKE_SOURCE_DIR}/cmake/processor)
+set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
 add_executable(${PROJECT_NAME})
 
@@ -72,7 +71,7 @@ target_link_options(${PROJECT_NAME}
 #		# Add your project specific libs here
 #)
 
-include(${PROCESSOR_CONFIG})
+include($ENV{PROCESSOR_CONFIG})
 
 include(cmake/generate-binary-file.cmake)
 
