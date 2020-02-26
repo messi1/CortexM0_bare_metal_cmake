@@ -65,10 +65,18 @@ target_link_options(${PROJECT_NAME}
         -Wl,-Map=output.map
 )
 
-#target_link_libraries(${PROJECT_NAME}
-#    PUBLIC
-#        # Add your project specific libs here
-#)
+target_link_options(${PROJECT_NAME}
+        PRIVATE
+            -L ${CMAKE_SOURCE_DIR}/lib/linker/
+            -T ${CMAKE_SOURCE_DIR}/lib/linker/lpc11u35.ld
+)
+
+target_link_libraries(${PROJECT_NAME}
+    PUBLIC
+       
+)
+
+#add_subdirectory(src/startup)
 
 include(${PROCESSOR_CONFIG})
 
