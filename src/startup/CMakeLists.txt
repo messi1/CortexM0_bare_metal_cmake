@@ -34,6 +34,7 @@ target_compile_options(${PROJECT_NAME}
         $<$<CXX_COMPILER_ID:GNU>:-Wsuggest-final-methods>
         -ffunction-sections
         -fno-threadsafe-statics
+        -ffreestanding
         -Werror
         -Wall
         -Wextra
