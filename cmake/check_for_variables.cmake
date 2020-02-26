@@ -30,9 +30,9 @@ endif()
 
 
 if( NOT DEFINED CMAKE_TOOLCHAIN_FILE OR "${CMAKE_TOOLCHAIN_FILE}" STREQUAL "")
-    if( "$ENV{COMPILER_CONFIG}" STREQUAL "GCC" )
+    if( "$ENV{COMPILER_CONFIG}" STREQUAL "GCC" OR "${COMPILER_CONFIG}" STREQUAL "GCC")
         set(CMAKE_TOOLCHAIN_FILE ${CMAKE_SOURCE_DIR}/cmake/toolchain/gcc-arm-toolchain.cmake)
-    elseif( "$ENV{COMPILER_CONFIG}" STREQUAL "CLANG")
+    elseif( "$ENV{COMPILER_CONFIG}" STREQUAL "CLANG" OR "${COMPILER_CONFIG}" STREQUAL "CLANG")
         set(CMAKE_TOOLCHAIN_FILE ${CMAKE_SOURCE_DIR}/cmake/toolchain/clang-arm-toolchain.cmake)
     else()
         message(FATAL_ERROR

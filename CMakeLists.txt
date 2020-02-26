@@ -66,12 +66,11 @@ target_link_options(${PROJECT_NAME}
 )
 
 #target_link_libraries(${PROJECT_NAME}
-#        PUBLICif(BUILD_TESTING)
-
-#		# Add your project specific libs here
+#    PUBLIC
+#        # Add your project specific libs here
 #)
 
-include($ENV{PROCESSOR_CONFIG})
+include(${PROCESSOR_CONFIG})
 
 include(cmake/generate-binary-file.cmake)
 
