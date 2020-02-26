@@ -14,7 +14,7 @@ function usage() {
 
     echo "Bad or missing argument!" 
     echo "Usage: $0 -g <dir> -b <dir> -c compiler"
-    echo "		-g <dir> : Source directory"
+    echo "		-s <dir> : Source directory"
     echo "		-b <dir> : Build directory"
     echo "		-c <dir> : Path to the compiler"
     echo "		-p <processor> : "${PROCESSOR_LIST[*]}
@@ -26,10 +26,10 @@ if [ "$1" == "" ]; then
     exit 0
 fi
 
-while getopts ":g:b:c:p:" optname
+while getopts ":s:b:c:p:" optname
   do
     case "$optname" in
-        "g")
+        "s")
             SOURCE_DIR="$OPTARG"
             generateProcessorList
         ;;
@@ -59,22 +59,10 @@ if [ -d "$COMPILER_PATH" ];
 then
     if [ -f "$COMPILER_PATH/bin/arm-none-eabi-g++" ];
     then
-        COMPILER="gcc"
+        COMPILER="GCC"
     elif [ -f "$COMPILER_PATH/bin/clang" ];
     then
-        COMPILER="clang"
-    fi
-
-    if [[ $COMPILER =~ ^(gcc|clang)$ ]]; then
-        if [ $COMPILER == "gcc" ]; then
-            export CROSS_GCC_COMPILER_PATH=$COMPILER_PATH
-        elif [ $COMPILER == "clang" ]; then
-            export CROSS_LLVM_COMPILER_PATH=$COMPILER_PATH
-        fi
-    else
-        echo "Either no compiler or an unsupported one was entered"
-            usage
-            exit 0
+        COMPILER="CLANG"
     fi
 else
     echo "Path to the compiler does not exist"
@@ -109,7 +97,7 @@ fi
 cd $BUILD_DIR
 
 echo "cmake -DPROCESSOR_CONFIG=$PROCESSOR -DCMAKE_TOOLCHAIN_FILE=$SOURCE_DIR/cmake/toolchain/$COMPILER-arm-toolchain.cmake $SOURCE_DIR"
-cmake -DPROCESSOR_CONFIG=$PROCESSOR -DCMAKE_TOOLCHAIN_FILE=$SOURCE_DIR/cmake/toolchain/$COMPILER-arm-toolchain.cmake $SOURCE_DIR
+cmake -DPROCESSOR_CONFIG=$PROCESSOR -DCROSS_COMPILER_PATH=$COMPILER_PATH -DCOMPILER_CONFIG=$COMPILER $SOURCE_DIR
 
 exec bash
 

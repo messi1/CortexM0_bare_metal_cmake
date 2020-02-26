@@ -2,7 +2,7 @@ cmake_minimum_required(VERSION 3.13)
 
 include(cmake/check_for_variables.cmake)
 
-project(firmware_$ENV{PROCESSOR_CONFIG} VERSION 0.0.1 LANGUAGES CXX)
+project(firmware_${PROCESSOR_CONFIG} VERSION 0.0.1 LANGUAGES CXX)
 
 set(CMAKE_MODULE_PATH ${CMAKE_SOURCE_DIR}/cmake/processor)
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
