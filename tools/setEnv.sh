@@ -13,7 +13,7 @@ function usage() {
     generateProcessorList
 
     echo "Bad or missing argument!" 
-    echo "Usage: $0 -g <dir> -b <dir> -c compiler"
+    echo "Usage: $0 -s <dir> -b <dir> -c compiler"
     echo "		-s <dir> : Source directory"
     echo "		-b <dir> : Build directory"
     echo "		-c <dir> : Path to the compiler"
@@ -55,16 +55,8 @@ then
 fi
 
 
-if [ -d "$COMPILER_PATH" ];
+if [ !-d "$COMPILER_PATH" ];
 then
-    if [ -f "$COMPILER_PATH/bin/arm-none-eabi-g++" ];
-    then
-        COMPILER="GCC"
-    elif [ -f "$COMPILER_PATH/bin/clang" ];
-    then
-        COMPILER="CLANG"
-    fi
-else
     echo "Path to the compiler does not exist"
     usage
     exit 0
@@ -97,7 +89,7 @@ fi
 cd $BUILD_DIR
 
 echo "cmake -DPROCESSOR_CONFIG=$PROCESSOR -DCMAKE_TOOLCHAIN_FILE=$SOURCE_DIR/cmake/toolchain/$COMPILER-arm-toolchain.cmake $SOURCE_DIR"
-cmake -DPROCESSOR_CONFIG=$PROCESSOR -DCROSS_COMPILER_PATH=$COMPILER_PATH -DCOMPILER_CONFIG=$COMPILER $SOURCE_DIR
+cmake -DPROCESSOR_CONFIG=$PROCESSOR -DCROSS_COMPILER_PATH=$COMPILER_PATH $SOURCE_DIR
 
 exec bash
 

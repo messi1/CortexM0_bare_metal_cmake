@@ -17,27 +17,27 @@ if( NOT DEFINED PROCESSOR_CONFIG OR "${PROCESSOR_CONFIG}" STREQUAL "" )
 endif()
 
 
-if( NOT DEFINED CROSS_COMPILER_PATH OR "${CROSS_COMPILER_PATH}" STREQUAL "" )
-    if( NOT DEFINED ENV{CROSS_COMPILER_PATH} OR "$ENV{CROSS_COMPILER_PATH}" STREQUAL "" )
-        message(FATAL_ERROR
-            "Please pass the CROSS_COMPILER_PATH variable either via \ncmake -DCROSS_COMPILER_PATH=<path>\n"
-            "or\n"
-            "via environement variable CROSS_COMPILER_PATH ")
-    else()
+
+if( (NOT DEFINED CROSS_COMPILER_PATH OR "${CROSS_COMPILER_PATH}" STREQUAL "") AND
+    (NOT DEFINED ENV{CROSS_COMPILER_PATH} OR "$ENV{CROSS_COMPILER_PATH}" STREQUAL "") )
+    message(FATAL_ERROR
+        "Please pass the CROSS_COMPILER_PATH variable either via \ncmake -DCROSS_COMPILER_PATH=<path>\n"
+        "or\n"
+        "via environement variable CROSS_COMPILER_PATH ")
+else()
+    if( NOT DEFINED CROSS_COMPILER_PATH)
         set(CROSS_COMPILER_PATH $ENV{CROSS_COMPILER_PATH})
     endif()
-endif()
 
-
-if( NOT DEFINED CMAKE_TOOLCHAIN_FILE OR "${CMAKE_TOOLCHAIN_FILE}" STREQUAL "")
-    if( "$ENV{COMPILER_CONFIG}" STREQUAL "GCC" OR "${COMPILER_CONFIG}" STREQUAL "GCC")
-        set(CMAKE_TOOLCHAIN_FILE ${CMAKE_SOURCE_DIR}/cmake/toolchain/gcc-arm-toolchain.cmake)
-    elseif( "$ENV{COMPILER_CONFIG}" STREQUAL "CLANG" OR "${COMPILER_CONFIG}" STREQUAL "CLANG")
+    if(EXISTS ${CROSS_COMPILER_PATH}/bin/clang++)
         set(CMAKE_TOOLCHAIN_FILE ${CMAKE_SOURCE_DIR}/cmake/toolchain/clang-arm-toolchain.cmake)
+    elseif(EXISTS ${CROSS_COMPILER_PATH}/bin/arm-none-eabi-c++)
+        set(CMAKE_TOOLCHAIN_FILE ${CMAKE_SOURCE_DIR}/cmake/toolchain/gcc-arm-toolchain.cmake)
     else()
-        message(FATAL_ERROR
-            "Please pass the COMPILER_CONFIG variable either via \n-DCOMPILER_CONFIG=(GCC/CLANG)\n"
-            "or\n"
-            "via environement variable COMPILER_CONFIG ")
+        message("The compiler path does neither contain /bin/clang++ nor does it contain bin/arm-none-eabi-c++")
     endif()
+    message("Cross compiler path:${CROSS_COMPILER_PATH}")
+    message("Toolchain file: ${CMAKE_TOOLCHAIN_FILE}")
 endif()
+
+
