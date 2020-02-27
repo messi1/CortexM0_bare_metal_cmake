@@ -1,9 +1,8 @@
-target_sources(${PROJECT_NAME}
-        PRIVATE
-                ${CMAKE_CURRENT_SOURCE_DIR}/src/startup/handlers_cm.cpp
-                ${CMAKE_CURRENT_SOURCE_DIR}/src/startup/stack.cpp
-                ${CMAKE_CURRENT_SOURCE_DIR}/src/startup/startup.cpp
-)
+
+#target_sources(${PROJECT_NAME}
+#        PRIVATE
+# Add your processor specific source files
+#)
 
 target_compile_options(${PROJECT_NAME}
 	PRIVATE
@@ -23,10 +22,9 @@ target_include_directories(${PROJECT_NAME}
 		$<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
 )
 
-target_link_options(${PROJECT_NAME}
-	PRIVATE
-                $<$<CXX_COMPILER_ID:Clang>:-T ${CMAKE_SOURCE_DIR}/lib/linker/stm32f031x6_clang.ld>
-                $<$<CXX_COMPILER_ID:GNU>:-T ${CMAKE_SOURCE_DIR}/lib/linker/stm32f031x6_gcc.ld>
+add_custom_target(Linkerscripts SOURCES
+                  ${CMAKE_SOURCE_DIR}/lib/linker/SAMD21G18A.ld
+                  ${CMAKE_SOURCE_DIR}/lib/linker/cortexM0_plus.ld
 )
 
 #target_link_libraries(${PROJECT_NAME}

@@ -23,7 +23,7 @@ target_include_directories(${PROJECT_NAME}
 )
 
 add_custom_target(Linkerscripts SOURCES
-                  ${CMAKE_SOURCE_DIR}/lib/linker/lpc11u35.ld
+                  ${CMAKE_SOURCE_DIR}/lib/linker/LPC11U35.ld
                   ${CMAKE_SOURCE_DIR}/lib/linker/cortexM0_plus.ld
 )
 

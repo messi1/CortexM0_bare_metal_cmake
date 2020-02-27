@@ -12,10 +12,6 @@ add_executable(${PROJECT_NAME})
 target_sources(${PROJECT_NAME}
     PRIVATE
         ${CMAKE_SOURCE_DIR}/src/main.cpp
-        ${CMAKE_CURRENT_SOURCE_DIR}/src/startup/crt0.cpp
-        ${CMAKE_CURRENT_SOURCE_DIR}/src/startup/crt0_init_ram.cpp
-        ${CMAKE_CURRENT_SOURCE_DIR}/src/startup/crt1.cpp
-        ${CMAKE_CURRENT_SOURCE_DIR}/src/startup/int_vect.cpp
 )
 
 target_compile_options(${PROJECT_NAME}
@@ -34,8 +30,6 @@ target_compile_options(${PROJECT_NAME}
         $<$<CXX_COMPILER_ID:GNU>:-Wsuggest-override>
         $<$<CXX_COMPILER_ID:GNU>:-Wsuggest-final-types>
         $<$<CXX_COMPILER_ID:GNU>:-Wsuggest-final-methods>
-        -ffunction-sections
-        -fno-threadsafe-statics
         -Werror
         -Wall
         -Wextra
@@ -45,6 +39,8 @@ target_compile_options(${PROJECT_NAME}
         -Wold-style-cast
         -Wshadow
         -pedantic
+        -ffunction-sections
+        -fno-threadsafe-statics
 )
 
 target_compile_definitions(${PROJECT_NAME}
@@ -60,25 +56,21 @@ target_include_directories(${PROJECT_NAME}
 target_link_options(${PROJECT_NAME}
     PRIVATE
         $<$<CXX_COMPILER_ID:GNU>:-nostartfiles> # https://gcc.gnu.org/onlinedocs/gcc/Link-Options.html
+        $<$<CXX_COMPILER_ID:CLANG>:-fuse-ld=lld>
         -nodefaultlibs
         -nostdlib
         -Wl,-Map=firmware_${PROCESSOR_CONFIG}.map
-)
-
-target_link_options(${PROJECT_NAME}
-        PRIVATE
-            -L ${CMAKE_SOURCE_DIR}/lib/linker/
-            -T ${CMAKE_SOURCE_DIR}/lib/linker/lpc11u35.ld
+        -L ${CMAKE_SOURCE_DIR}/lib/linker/
+        -T ${CMAKE_SOURCE_DIR}/lib/linker/${PROCESSOR_CONFIG}.ld
+        -flto
 )
 
 target_link_libraries(${PROJECT_NAME}
     PUBLIC
-       
+       crt0::crt0
 )
 
-#add_subdirectory(src/startup)
-
-include(${PROCESSOR_CONFIG})
+add_subdirectory(src/startup)
 
 include(cmake/generate-binary-file.cmake)
 

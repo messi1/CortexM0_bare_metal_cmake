@@ -2,7 +2,6 @@
 # The following variables must be set to be able to cross compile:
 # PROCESSOR_CONFIG either to LPC11U35 or ATSAMD21G18
 # CROSS_COMPILE_PATH to the main directory of either arm-gcc or clang
-# COMPILER_CONFIG to either GCC or CLANG to load the correct toolchain file
 #############################################################################
 
 if( NOT DEFINED PROCESSOR_CONFIG OR "${PROCESSOR_CONFIG}" STREQUAL "" )
@@ -15,7 +14,6 @@ if( NOT DEFINED PROCESSOR_CONFIG OR "${PROCESSOR_CONFIG}" STREQUAL "" )
         set(PROCESSOR_CONFIG $ENV{PROCESSOR_CONFIG})
     endif()
 endif()
-
 
 
 if( (NOT DEFINED CROSS_COMPILER_PATH OR "${CROSS_COMPILER_PATH}" STREQUAL "") AND
@@ -36,8 +34,6 @@ else()
     else()
         message("The compiler path does neither contain /bin/clang++ nor does it contain bin/arm-none-eabi-c++")
     endif()
-    message("Cross compiler path:${CROSS_COMPILER_PATH}")
-    message("Toolchain file: ${CMAKE_TOOLCHAIN_FILE}")
 endif()
 
 
