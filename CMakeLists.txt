@@ -41,6 +41,9 @@ target_compile_options(${PROJECT_NAME}
         -pedantic
         -ffunction-sections
         -fno-threadsafe-statics
+        -fno-unwind-tables
+        -fdata-sections 
+        -fno-threadsafe-statics
 )
 
 target_compile_definitions(${PROJECT_NAME}
@@ -63,6 +66,9 @@ target_link_options(${PROJECT_NAME}
         -L ${CMAKE_SOURCE_DIR}/lib/linker/
         -T ${CMAKE_SOURCE_DIR}/lib/linker/${PROCESSOR_CONFIG}.ld
         -flto
+        -ffunction-sections
+        -fdata-sections 
+        -Wl,--gc-sections
 )
 
 target_link_libraries(${PROJECT_NAME}

@@ -32,7 +32,9 @@ target_compile_options(${PROJECT_NAME}
         $<$<CXX_COMPILER_ID:GNU>:-Wsuggest-override>
         $<$<CXX_COMPILER_ID:GNU>:-Wsuggest-final-types>
         $<$<CXX_COMPILER_ID:GNU>:-Wsuggest-final-methods>
+        -fno-unwind-tables
         -ffunction-sections
+        -fdata-sections 
         -fno-threadsafe-statics
         -ffreestanding
         -Werror
@@ -44,6 +46,21 @@ target_compile_options(${PROJECT_NAME}
         -Wold-style-cast
         -Wshadow
         -pedantic
+)
+
+target_link_options(${PROJECT_NAME}
+    PRIVATE
+        $<$<CXX_COMPILER_ID:GNU>:-nostartfiles> # https://gcc.gnu.org/onlinedocs/gcc/Link-Options.html
+        $<$<CXX_COMPILER_ID:CLANG>:-fuse-ld=lld>
+        -nodefaultlibs
+        -nostdlib
+        -Wl,-Map=firmware_${PROCESSOR_CONFIG}.map
+        -L ${CMAKE_SOURCE_DIR}/lib/linker/
+        -T ${CMAKE_SOURCE_DIR}/lib/linker/${PROCESSOR_CONFIG}.ld
+        -flto
+        -ffunction-sections
+        -fdata-sections 
+        -Wl,--gc-sections
 )
 
 
