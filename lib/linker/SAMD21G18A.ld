@@ -6,9 +6,10 @@
  *   RAM.LENGTH: length of RAM bank 0
  */
 
-MEMORY {
+MEMORY
+{
     FLASH (rx) : ORIGIN = 0x08000000, LENGTH = 32K
-    SRAM (rwx) : ORIGIN = 0x20000000, LENGTH = 4K
+    RAM (rwx) : ORIGIN = 0x20000000, LENGTH = 4K
 }
 
 INCLUDE "cortexM0_plus.ld"
