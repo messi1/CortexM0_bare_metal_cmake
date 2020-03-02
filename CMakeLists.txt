@@ -4,8 +4,21 @@ include(cmake/check_for_variables.cmake)
 
 project(firmware_${PROCESSOR_CONFIG} VERSION 0.0.1 LANGUAGES CXX)
 
-set(CMAKE_MODULE_PATH ${CMAKE_SOURCE_DIR}/cmake/processor)
+set(CMAKE_MODULE_PATH ${CMAKE_SOURCE_DIR}/cmake/)
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
+
+option(PROTOTHREAD_CPP "Include the protothread library" OFF)
+
+if(PROTOTHREAD_CPP)
+    include(protothread_cpp)
+    set(PROTOTHREAD_DEP "protothread_cpp::protothread_cpp")
+endif(PROTOTHREAD_CPP)
+
+option(WARNING_AS_ERRORS "Treat any warning as compile time error" ON)
+
+if(WARNING_AS_ERRORS)
+  set(COMPILE_WARNING_AS_ERROR "-Werror")
+endif(WARNING_AS_ERRORS)
 
 add_executable(${PROJECT_NAME})
 
@@ -33,7 +46,7 @@ target_compile_options(${PROJECT_NAME}
         $<$<CXX_COMPILER_ID:GNU>:-Wsuggest-final-methods> # Warn about virtual methods where code quality would be improved if the method were declared with the C++11 final specifier
         $<$<CXX_COMPILER_ID:GNU>:-Wstringop-overflow> # Warn for calls to string manipulation functions such as memcpy and strcpy that are determined to overflow the destination buffer
         -Wuninitialized # Warn if an automatic variable is used without first being initialized
-        -Werror # Make all warnings into errors.s
+        ${COMPILE_WARNING_AS_ERROR} # -Werror # Make all warnings into errors.s
         -Wall # This enables all the warnings about constructions that some users consider questionable
         -Wextra # This enables some extra warning flags that are not enabled by ‘-Wall'
         -Wcast-align # Warn whenever a pointer is cast such that the required alignment of the target is increased.
@@ -74,11 +87,12 @@ target_link_options(${PROJECT_NAME}
 target_link_libraries(${PROJECT_NAME}
     PUBLIC
        crt0::crt0
+       ${PROTOTHREAD_DEP}
 )
 
 add_subdirectory(src/startup)
 
-include(cmake/generate-binary-file.cmake)
+include(generate-binary-file)
 
 if(BUILD_TESTING)
     add_subdirectory(tests)
