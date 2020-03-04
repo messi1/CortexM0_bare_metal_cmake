@@ -1,7 +1,7 @@
 // define used registers
-static volatile unsigned &RCC_AHB1 = *reinterpret_cast<unsigned *>(0x40021014);
+static volatile unsigned &RCC_AHB1    = *reinterpret_cast<unsigned *>(0x40021014);
 static volatile unsigned &GPIOA_MODER = *reinterpret_cast<unsigned *>(0x48000000);
-static volatile unsigned &GPIOA_BSRR = *reinterpret_cast<unsigned *>(0x48000018);
+static volatile unsigned &GPIOA_BSRR  = *reinterpret_cast<unsigned *>(0x48000018);
 
 // #include <cmath>
 
