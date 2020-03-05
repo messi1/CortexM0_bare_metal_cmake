@@ -1,6 +1,6 @@
 set_property(GLOBAL
     PROPERTY COMMON_PRIVATE_COMPILE_OPTIONS
-        $<$<CONFIG:Release>:-Os -flto>
+        $<$<CONFIG:Release>:-Os>
         $<$<CONFIG:Debug>:-Og>
         $<$<COMPILE_LANGUAGE:C>:-std=c11>
         $<$<COMPILE_LANGUAGE:CXX>:-std=c++17>
@@ -17,7 +17,7 @@ set_property(GLOBAL
         $<$<CXX_COMPILER_ID:GNU>:-Wsuggest-final-methods> # Warn about virtual methods where code quality would be improved if the method were declared with the C++11 final specifier
         $<$<CXX_COMPILER_ID:GNU>:-Wstringop-overflow> # Warn for calls to string manipulation functions such as memcpy and strcpy that are determined to overflow the destination buffer
         -Wuninitialized # Warn if an automatic variable is used without first being initialized
-        -Werror # Make all warnings into errors.s
+        ${COMPILE_WARNING_AS_ERROR} #-Werror # Make all warnings into errors
         -Wall # This enables all the warnings about constructions that some users consider questionable
         -Wextra # This enables some extra warning flags that are not enabled by ‘-Wall'
         -Wcast-align # Warn whenever a pointer is cast such that the required alignment of the target is increased.
@@ -31,8 +31,20 @@ set_property(GLOBAL
         -fdata-sections # Place each function or data item into its own section in the output file if the target supports arbitrary sections.
         -fno-threadsafe-statics # Do not emit the extra code to use the routines specified in the C++ ABI for thread-safe initialization of local statics.
         -ffreestanding # directs the compiler to limit this program to only those features available in the freestanding environment.        
+        -nodefaultlibs
+        -nostdlib
+#       -fno-gc
+#       -fno-invariants
+#       -fno-moduleinfo
+#       -fno-string-switch
+#       -fno-utf-support #(foreach over utf strings)
+#       -fno-boundscheck
+#       -fno-switch-error
 )
 
 set_property(GLOBAL
         PROPERTY COMMON_PRIVATE_LINK_OPTIONS
+        -nodefaultlibs
+        -nostdlib
+        -nolibc
 )
