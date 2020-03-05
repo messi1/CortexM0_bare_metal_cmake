@@ -29,7 +29,7 @@ add_custom_target(hex
 add_custom_target(bin ALL
     DEPENDS ${PROJECT_NAME}.bin
 )
-add_custom_target(assembly
+add_custom_target(assembly ALL
     DEPENDS ${PROJECT_NAME}.S
 )
 add_custom_target(sym

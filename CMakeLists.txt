@@ -58,7 +58,7 @@ target_link_libraries(${PROJECT_NAME}
 
 add_subdirectory(src/startup)
 include(processor/${PROCESSOR_CONFIG})
-include(generate-binary-file)
+include(generate-different-output-format)
 
 if(BUILD_TESTING)
     add_subdirectory(tests)
