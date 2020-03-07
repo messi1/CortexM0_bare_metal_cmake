@@ -1,8 +1,8 @@
 
-#target_sources(${PROJECT_NAME}
-#        PRIVATE
-# Add your processor specific source files
-#)
+target_compile_definitions(${PROJECT_NAME}
+    PRIVATE
+        LPC11UXX
+)
 
 target_compile_options(${PROJECT_NAME}
     PRIVATE
@@ -12,9 +12,9 @@ target_compile_options(${PROJECT_NAME}
         -march=armv6-m     # Check https://de.wikipedia.org/wiki/ARM_Cortex-M#Cortex-M0
 )
 
-#target_compile_definitions(${PROJECT_NAME}
+#target_sources(${PROJECT_NAME}
 #        PRIVATE
-#       # Add your processor specific compile definitions
+# Add your processor specific source files
 #)
 
 target_include_directories(${PROJECT_NAME}
