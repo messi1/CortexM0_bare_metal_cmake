@@ -18,6 +18,10 @@ add_custom_command(OUTPUT ${PROJECT_NAME}.S
     DEPENDS ${PROJECT_NAME}
     COMMAND ${CMAKE_OBJDUMP} -dS ${PROJECT_NAME}.elf > ${PROJECT_NAME}.S
 )
+add_custom_command(OUTPUT ${PROJECT_NAME}.objdump
+    DEPENDS ${PROJECT_NAME}
+    COMMAND ${CMAKE_OBJDUMP} -tCls ${PROJECT_NAME}.elf > ${PROJECT_NAME}.objdump
+)
 add_custom_command(OUTPUT ${PROJECT_NAME}.sym
     DEPENDS ${PROJECT_NAME}
     COMMAND ${CMAKE_NM} ${NM_OPT} ${PROJECT_NAME}.elf > ${PROJECT_NAME}.sym
@@ -31,6 +35,9 @@ add_custom_target(bin ALL
 )
 add_custom_target(assembly ALL
     DEPENDS ${PROJECT_NAME}.S
+)
+add_custom_target(objdump ALL
+    DEPENDS ${PROJECT_NAME}.objdump
 )
 add_custom_target(sym
     DEPENDS ${PROJECT_NAME}.sym
