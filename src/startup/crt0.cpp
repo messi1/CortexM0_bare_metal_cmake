@@ -6,18 +6,10 @@ namespace crt
   void init_dtors();
 }
 
-extern "C" void __my_startup() __attribute__((used, noinline));
-extern "C" void NMI_Handler() __attribute__((used, noinline));
-extern "C" void HardFault_Handler() __attribute__((used, noinline));
 // main application
-extern int main();
+int main_app();
 
-
-void NMI_Handler(){}
-void HardFault_Handler(){}
-
-
-void __my_startup()
+extern "C" void __my_startup()
 {
     // Load the stack pointer.
     // The stack pointer is automatically loaded from
@@ -32,8 +24,9 @@ void __my_startup()
     crt::init_ctors();
 
     // Jump to main (and never return).
-    asm volatile("ldr r3, =main");
-    asm volatile("blx r3");
+//    asm volatile("ldr r3, =main");
+//    asm volatile("blx r3");
+    main_app();
 
 
     // Call all destructors
