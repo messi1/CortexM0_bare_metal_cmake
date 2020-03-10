@@ -19,6 +19,7 @@ target_sources(${PROJECT_NAME}
         ${CMAKE_CURRENT_SOURCE_DIR}/crt0_init_ram.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/crt1.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/int_vect.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/tiny_new.cpp
 )
 
 target_compile_options(${PROJECT_NAME}
@@ -29,5 +30,4 @@ target_compile_options(${PROJECT_NAME}
 target_link_options(${PROJECT_NAME}
     PRIVATE
         ${COMMON_LINK_OPTIONS}
-        $<$<CXX_COMPILER_ID:CLANG>:-fuse-ld=lld>
 )

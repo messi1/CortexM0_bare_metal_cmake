@@ -18,14 +18,19 @@ if(WARNING_AS_ERRORS)
   set(COMPILE_WARNING_AS_ERROR "-Werror")
 endif(WARNING_AS_ERRORS)
 
-include(global_properties)
-
 add_executable(${PROJECT_NAME})
 set_target_properties(${PROJECT_NAME} PROPERTIES OUTPUT_NAME "${PROJECT_NAME}.elf")
 
+include(global_properties)
+include(processor/${PROCESSOR_CONFIG})
+get_property(COMMON_COMPILE_OPTIONS
+        GLOBAL PROPERTY COMMON_PRIVATE_COMPILE_OPTIONS)
+get_property(COMMON_LINK_OPTIONS
+        GLOBAL PROPERTY COMMON_PRIVATE_LINK_OPTIONS)
+
 target_compile_options(${PROJECT_NAME}
     PRIVATE
-        ${COMMON_PRIVATE_COMPILE_OPTIONS}
+        ${COMMON_COMPILE_OPTIONS}
 )
 
 target_include_directories(${PROJECT_NAME}
@@ -40,10 +45,12 @@ target_sources(${PROJECT_NAME}
 
 target_link_options(${PROJECT_NAME}
     PRIVATE
+        ${COMMON_LINK_OPTIONS}
         $<$<CXX_COMPILER_ID:GNU>:-nostartfiles> # https://gcc.gnu.org/onlinedocs/gcc/Link-Options.html
         $<$<CXX_COMPILER_ID:CLANG>:-fuse-ld=lld>
         -nodefaultlibs
         -nostdlib
+
         -Wl,-Map=firmware_${PROCESSOR_CONFIG}.map
         -L ${CMAKE_SOURCE_DIR}/lib/linker/
         -T ${CMAKE_SOURCE_DIR}/lib/linker/${PROCESSOR_CONFIG}.ld
@@ -57,7 +64,6 @@ target_link_libraries(${PROJECT_NAME}
 )
 
 add_subdirectory(src/startup)
-include(processor/${PROCESSOR_CONFIG})
 include(generate-different-output-format)
 
 if(BUILD_TESTING)

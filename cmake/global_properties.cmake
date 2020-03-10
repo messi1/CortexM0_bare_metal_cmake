@@ -1,6 +1,6 @@
 set_property(GLOBAL
     PROPERTY COMMON_PRIVATE_COMPILE_OPTIONS
-        $<$<CONFIG:Release>:-Os>
+        $<$<CONFIG:Release>:-O0>
         $<$<CONFIG:Debug>:-Og>
         $<$<COMPILE_LANGUAGE:C>:-std=c11>
         $<$<COMPILE_LANGUAGE:CXX>:-std=c++17>
@@ -44,7 +44,9 @@ set_property(GLOBAL
 
 set_property(GLOBAL
         PROPERTY COMMON_PRIVATE_LINK_OPTIONS
+        $<$<CXX_COMPILER_ID:CLANG>:-fuse-ld=lld>
+        -fno-exceptions
         -nodefaultlibs
         -nostdlib
-        -nolibc
+        $<$<CXX_COMPILER_ID:GNU>:-nolibc>
 )
