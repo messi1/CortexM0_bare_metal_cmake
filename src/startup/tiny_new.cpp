@@ -22,6 +22,7 @@ namespace std {
 struct nothrow_t
 {
     //
+    explicit nothrow_t() = default;
 };
 enum class align_val_t : std::size_t {};
 } // namespace std

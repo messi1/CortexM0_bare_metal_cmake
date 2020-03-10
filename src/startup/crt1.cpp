@@ -1,7 +1,8 @@
 //#include <algorithm>
 //#include <iterator>
 
-extern "C" {
+extern "C"
+{
     struct ctor_type {
       typedef void (*function_type)();
     };
