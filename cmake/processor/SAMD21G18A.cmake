@@ -24,8 +24,8 @@ target_include_directories(${PROJECT_NAME}
 
 if(NOT TARGET Linkerscripts)
     add_custom_target(Linkerscripts SOURCES
-                      ${CMAKE_SOURCE_DIR}/lib/linker/SAMD21G18A.ld
-                      ${CMAKE_SOURCE_DIR}/lib/linker/cortexM0_plus.ld
+                      ${CMAKE_SOURCE_DIR}/linker/SAMD21G18A.ld
+                      ${CMAKE_SOURCE_DIR}/linker/cortexM0_plus.ld
     )
 endif()
 

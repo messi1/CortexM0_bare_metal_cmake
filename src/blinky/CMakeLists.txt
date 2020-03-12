@@ -35,8 +35,8 @@ target_link_options(${PROJECT_NAME}
         -nostdlib
 
         -Wl,-Map=${PROJECT_NAME}.map
-        -L ${CMAKE_SOURCE_DIR}/lib/linker/
-        -T ${CMAKE_SOURCE_DIR}/lib/linker/${PROCESSOR_CONFIG}.ld
+        -L ${CMAKE_SOURCE_DIR}/linker/
+        -T ${CMAKE_SOURCE_DIR}/linker/${PROCESSOR_CONFIG}.ld
         -Wl,--gc-sections
 )
 
