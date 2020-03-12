@@ -18,6 +18,8 @@
    rather than just eliminate exceptions.
  */
 
+extern "C" void __cxa_pure_virtual() { while(1); }
+
 namespace std {
 struct nothrow_t
 {
@@ -63,6 +65,12 @@ void operator delete(void * /*ptr*/)
     /*free(ptr);*/
 }
 
+void operator delete(void* /*ptr*/, unsigned int)
+{
+    //
+    /*free(ptr);*/
+}
+
 void operator delete(void * /*ptr*/, const std::nothrow_t &)
 {
     //
@@ -70,6 +78,12 @@ void operator delete(void * /*ptr*/, const std::nothrow_t &)
 }
 
 void operator delete[](void * /*ptr*/)
+{
+    //
+    /*free(ptr);*/
+}
+
+void operator delete [](void* /*ptr*/, unsigned int)
 {
     //
     /*free(ptr);*/
