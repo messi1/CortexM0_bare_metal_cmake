@@ -16,7 +16,7 @@ add_custom_command(OUTPUT ${PROJECT_NAME}.bin
 )
 add_custom_command(OUTPUT ${PROJECT_NAME}.S
     DEPENDS ${PROJECT_NAME}
-    COMMAND ${CMAKE_OBJDUMP} -dS ${PROJECT_NAME}.elf > ${PROJECT_NAME}.S
+    COMMAND ${CMAKE_OBJDUMP} -dCS ${PROJECT_NAME}.elf > ${PROJECT_NAME}.S
 )
 add_custom_command(OUTPUT ${PROJECT_NAME}.objdump
     DEPENDS ${PROJECT_NAME}
