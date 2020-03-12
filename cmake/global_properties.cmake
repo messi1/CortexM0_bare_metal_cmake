@@ -48,5 +48,4 @@ set_property(GLOBAL
         -fno-exceptions
         -nodefaultlibs
         -nostdlib
-        $<$<CXX_COMPILER_ID:GNU>:-nolibc>
 )
