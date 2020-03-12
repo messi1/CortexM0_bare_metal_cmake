@@ -1,2 +1,2 @@
 # BareMetalCMake
-Simple bare metal cmake project for gcc and clang
+Simple bare metal project with cmake and C++1x for gcc and clang
