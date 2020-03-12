@@ -34,7 +34,7 @@ target_link_options(${PROJECT_NAME}
         -nodefaultlibs
         -nostdlib
 
-        -Wl,-Map=firmware_${PROCESSOR_CONFIG}.map
+        -Wl,-Map=${PROJECT_NAME}.map
         -L ${CMAKE_SOURCE_DIR}/lib/linker/
         -T ${CMAKE_SOURCE_DIR}/lib/linker/${PROCESSOR_CONFIG}.ld
         -Wl,--gc-sections
