@@ -1,3 +1,5 @@
+//#include <type_traits>
+
 // define used registers
 static volatile unsigned &RCC_AHB1 = *reinterpret_cast<unsigned *>(0x40021014);
 static volatile unsigned &GPIOA_MODER =
@@ -22,6 +24,7 @@ int main_app() {
   B ab;
   ab.gugus();
   volatile int x = static_cast<int>(100000l);
+  static_assert(1<2);
   if (x)
     ++x;
   RCC_AHB1 |= 0x00020000;    // enable clock for GPIOA
