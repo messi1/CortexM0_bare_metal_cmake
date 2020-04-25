@@ -33,13 +33,26 @@ set_property(GLOBAL
         -ffreestanding # directs the compiler to limit this program to only those features available in the freestanding environment.        
         -nodefaultlibs
         -nostdlib
-#       -fno-gc
-#       -fno-invariants
-#       -fno-moduleinfo
-#       -fno-string-switch
-#       -fno-utf-support #(foreach over utf strings)
-#       -fno-boundscheck
-#       -fno-switch-error
+#        -fstrict-enums
+#        -fno-use-cxa-atexit
+#        -fno-use-cxa-get-exception-ptr
+#        -fno-nonansi-builtins
+#        -fno-threadsafe-statics
+#        -fno-enforce-eh-specs
+#        -ftemplate-depth=32
+#        -Wzero-as-null-pointer-constant
+#        -fno-gc
+#        -fno-invariants
+#        -fno-moduleinfo
+#        -fno-string-switch
+#        -fno-utf-support #(foreach over utf strings)
+#        -fno-boundscheck
+#        -fno-switch-error
+#        -finline-functions
+#        -finline-limit=32
+#        -mfloat-abi=soft
+#        -mno-unaligned-access
+#        -mno-long-calls
 )
 
 set_property(GLOBAL
