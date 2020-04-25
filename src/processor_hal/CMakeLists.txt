@@ -5,7 +5,14 @@ project(processor_hal VERSION 0.0.1 LANGUAGES CXX)
 add_library(${PROJECT_NAME} INTERFACE)
 add_library(${PROJECT_NAME}::${PROJECT_NAME} ALIAS ${PROJECT_NAME})
 
+target_include_directories(${PROJECT_NAME}
+    INTERFACE
+        ${CMAKE_SOURCE_DIR}/src/
+)
+
 target_sources(${PROJECT_NAME}
     INTERFACE
         ${CMAKE_SOURCE_DIR}/src/processor_hal/port_pin.h
+        ${CMAKE_SOURCE_DIR}/src/processor_hal/reg_access_dynamic.h
+        ${CMAKE_SOURCE_DIR}/src/processor_hal/reg_access_static.h
 )
