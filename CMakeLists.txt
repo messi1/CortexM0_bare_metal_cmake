@@ -20,6 +20,7 @@ if(WARNING_AS_ERRORS)
 endif(WARNING_AS_ERRORS)
 
 add_subdirectory(src/startup)
+add_subdirectory(src/processor_hal)
 add_subdirectory(src/blinky)
 
 if(BUILD_TESTING)
