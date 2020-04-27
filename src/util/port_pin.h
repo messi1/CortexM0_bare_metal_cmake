@@ -1,48 +1,55 @@
 #pragma once
+#include <cstdint>
+#include "reg_access_static.h"
 
-template<typename addr_type, typename reg_type, const addr_type port, const reg_type bpos>
-class port_pin
+namespace util
 {
-public:
+  template<typename reg_addr_type, typename reg_value_type,
+           const reg_addr_type port, const reg_value_type bit_pos>
+  class port_pin
+  {
+  public:
+
     static void set_direction_output()
     {
-        // Set the port pin direction to output.
-        port_dir_type::bit_set();
+      util::reg_access_static<reg_addr_type, reg_value_type, m_dir_reg, bit_pos>::bit_set();
     }
+
     static void set_direction_input()
     {
-        // Set the port pin direction to input.
-        port_dir_type::bit_clr();
+      util::reg_access_static<reg_addr_type, reg_value_type, m_dir_reg, bit_pos>::bit_clr();
     }
-        static void set_pin_high()
+
+    static void set_pin_high()
     {
-        // Set the port output value to high.
-        port_pin_type::bit_set();
+      // Set the port output value to high.
+      util::reg_access_static<reg_addr_type, reg_value_type, m_data_reg, out_val_high>::reg_set();
     }
-        static void set_pin_low()
+
+    static void set_pin_low()
     {
-        // Set the port output value to low.
-        port_pin_type::bit_clr();
+      // Set the port output value to low.
+      util::reg_access_static<reg_addr_type, reg_value_type, m_data_reg, out_val_low>::reg_set();
     }
 
     static bool read_input_value()
     {
-        // Read the port input value.
-        port_inp_type::bit_get();
+      // Read the port input value.
+      return static_cast<bool>(
+        (util::reg_access_static<reg_addr_type, reg_value_type, m_data_reg>::reg_get() >> bit_pos) & 1);
     }
 
-    static void toggle()
+    static void toggle_pin()
     {
-        // Toggle the port output value.
-        port_pin_type::bit_not();
+      // Toggle the port output value.
+      util::reg_access_static<reg_addr_type, reg_value_type, m_data_reg, bit_pos>::bit_not();
     }
-    private:
-        static constexpr addr_type pdir = port - 1U;
-        static constexpr addr_type pinp = port - 2U;
-        // Type definition of the port data register.
-        typedef reg_access<addr_type, reg_type, port, bpos> port_pin_type;
-        // Type definition of the port direction register.
-        typedef reg_access<addr_type, reg_type, pdir, bpos> port_dir_type;
-        // Type definition of the port input register.
-        typedef reg_access<addr_type, reg_type, pinp, bpos> port_inp_type;
-};
+
+  private:
+    static constexpr std::uint32_t m_data_reg = port + (UINT32_C(4) * (1 << bit_pos));
+    static constexpr std::uint32_t m_dir_reg = port + UINT32_C(0x8000);
+
+    static constexpr std::uint32_t out_val_high = 1UL << bit_pos;
+    static constexpr std::uint32_t out_val_low = 0UL << bit_pos;
+  };
+}

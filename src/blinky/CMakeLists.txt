@@ -11,6 +11,11 @@ get_property(COMMON_COMPILE_OPTIONS
 get_property(COMMON_LINK_OPTIONS
         GLOBAL PROPERTY COMMON_PRIVATE_LINK_OPTIONS)
 
+target_compile_features(${PROJECT_NAME}
+    PRIVATE
+     cxx_std_17
+)
+
 target_compile_options(${PROJECT_NAME}
     PRIVATE
         ${COMMON_COMPILE_OPTIONS}
