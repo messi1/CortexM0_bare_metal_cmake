@@ -1,6 +1,6 @@
 #pragma once
 
-namespace register
+namespace util::reg
 {
   template<typename register_address, typename register_value,
            const register_address address, const register_value value = static_cast<register_value>(0)>

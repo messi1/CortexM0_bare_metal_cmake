@@ -1,6 +1,6 @@
 #pragma once
 
-namespace register
+namespace util::reg
 {
   template<typename register_address, typename register_value>
 

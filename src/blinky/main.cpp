@@ -1,7 +1,7 @@
 #include "cstddef"
 
-#include "processor_hal/reg_access_dynamic.h"
-#include "processor_hal/reg_access_static.h"
+#include "util/reg_access_dynamic.h"
+#include "util/reg_access_static.h"
 //#include <type_traits>
 
 // define used registers
@@ -26,8 +26,8 @@ public:
 // application
 int main_app()
 {
-    register::access_static<unsigned int, unsigned int, 0x48000018, 0x5>::bit_not();
-    register::access_dynamic<unsigned int, unsigned int>::bit_not(0x48000018, 0x5);
+    util::reg::access_static<unsigned int, unsigned int, 0x48000018, 0x5>::bit_not();
+    util::reg::access_dynamic<unsigned int, unsigned int>::bit_not(0x48000018, 0x5);
   B ab;
   ab.gugus();
   volatile int x = static_cast<int>(100000l);

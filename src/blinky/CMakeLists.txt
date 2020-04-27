@@ -43,5 +43,5 @@ target_link_options(${PROJECT_NAME}
 target_link_libraries(${PROJECT_NAME}
     PUBLIC
        crt0::crt0
-       processor_hal::processor_hal
+       util::util
 )
