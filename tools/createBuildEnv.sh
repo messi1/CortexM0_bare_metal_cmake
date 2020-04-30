@@ -1,5 +1,7 @@
 #!/bin/bash
 
+BUILD_TYPE="-DCMAKE_BUILD_TYPE=Release"
+
 function generateProcessorList() {
     if [  -n "$SOURCE_DIR" ]
     then
@@ -13,12 +15,13 @@ function usage() {
     generateProcessorList
 
     echo "Bad or missing argument!" 
-    echo "Usage: $0 -s <dir> -b <dir> -c compiler"
+    echo "Usage: $0 -s <dir> -b <dir> -c <DIR> -p <processor>"
+    echo "		-d : Debug build. With no option a release build will be generated"
     echo "		-s <dir> : Source directory"
     echo "		-b <dir> : Build directory"
     echo "		-c <dir> : Path to the compiler"
     echo "		-p <processor> : "${PROCESSOR_LIST[*]}
-
+    
 }
 
 if [ "$1" == "" ]; then
@@ -26,9 +29,12 @@ if [ "$1" == "" ]; then
     exit 0
 fi
 
-while getopts ":s:b:c:p:" optname
+while getopts ":ds:b:c:p:" optname
   do
     case "$optname" in
+        "d")
+           BUILD_TYPE="-DCMAKE_BUILD_TYPE=Debug"
+        ;;
         "s")
             SOURCE_DIR="$OPTARG"
             generateProcessorList
@@ -55,7 +61,7 @@ then
 fi
 
 
-if [ !-d "$COMPILER_PATH" ];
+if [ ! -d "$COMPILER_PATH" ];
 then
     echo "Path to the compiler does not exist"
     usage
@@ -88,8 +94,8 @@ fi
 
 cd $BUILD_DIR
 
-echo "cmake -DPROCESSOR_CONFIG=$PROCESSOR -DCROSS_COMPILER_PATH=$COMPILER_PATH $SOURCE_DIR"
-cmake -DPROCESSOR_CONFIG=$PROCESSOR -DCROSS_COMPILER_PATH=$COMPILER_PATH $SOURCE_DIR
+echo "cmake $BUILD_TYPE -DPROCESSOR_CONFIG=$PROCESSOR -DCROSS_COMPILER_PATH=$COMPILER_PATH $SOURCE_DIR"
+cmake $BUILD_TYPE -DPROCESSOR_CONFIG=$PROCESSOR -DCROSS_COMPILER_PATH=$COMPILER_PATH $SOURCE_DIR
 
 exec bash
 
