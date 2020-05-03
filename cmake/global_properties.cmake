@@ -1,7 +1,7 @@
 set_property(GLOBAL
     PROPERTY COMMON_PRIVATE_COMPILE_OPTIONS
-        $<$<CONFIG:Release>:-O0>
-        $<$<CONFIG:Debug>:-Og>
+        $<$<CONFIG:Release>:-Os>
+        $<$<CONFIG:Debug>:-O0>
         $<$<COMPILE_LANGUAGE:C>:-std=c11>
         $<$<COMPILE_LANGUAGE:CXX>:-std=c++17>
         $<$<COMPILE_LANGUAGE:CXX>:-fno-exceptions> # Disable exception handling.
