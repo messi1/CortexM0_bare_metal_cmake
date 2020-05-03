@@ -31,14 +31,10 @@ INCLUDE "cortexM0_plus.ld"
 
 SECTIONS
 {
-/* Either gcc or the llvm linker handles the values of the function handlers in a strange way.
- * It seems that the values of the fucntion __my_startup, __nmi_handler and __hard_fault_handler
- * are always of by one. Thats why we have to add +1 after each entry
- */
     LPC_CHECKSUM = 0 - ( __initial_stack_pointer
-                         + ABSOLUTE(__my_startup)+1
-                         + ABSOLUTE(__nmi_handler)+1
-                         + ABSOLUTE(__hard_fault_handler)+1
+                         + ABSOLUTE(__my_startup)
+                         + ABSOLUTE(__nmi_handler)
+                         + ABSOLUTE(__hard_fault_handler)
                          + (0) /* No handler registered in the interupt vector table */
                          + (0) /* No handler registered in the interupt vector table */
                          + (0) /* No handler registered in the interupt vector table */

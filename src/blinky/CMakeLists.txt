@@ -35,13 +35,11 @@ target_link_options(${PROJECT_NAME}
     PRIVATE
         ${COMMON_LINK_OPTIONS}
         $<$<CXX_COMPILER_ID:GNU>:-nostartfiles> # https://gcc.gnu.org/onlinedocs/gcc/Link-Options.html
-        $<$<CXX_COMPILER_ID:CLANG>:-fuse-ld=lld>
+        $<$<CXX_COMPILER_ID:Clang>:-fuse-ld=lld>
         -nodefaultlibs
         -nostdlib
-
         -Wl,-Map=${PROJECT_NAME}.map
         -L ${CMAKE_SOURCE_DIR}/linker/
-        -T ${CMAKE_SOURCE_DIR}/linker/${PROCESSOR_CONFIG}.ld
         -Wl,--gc-sections
 )
 

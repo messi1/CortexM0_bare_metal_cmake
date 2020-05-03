@@ -24,10 +24,17 @@ target_include_directories(${PROJECT_NAME}
 
 if(NOT TARGET Linkerscripts)
     add_custom_target(Linkerscripts SOURCES
-                      ${CMAKE_SOURCE_DIR}/linker/LPC11U35.ld
+                      $<$<CXX_COMPILER_ID:GNU>:${CMAKE_SOURCE_DIR}/linker/LPC11U35.ld>
+                      $<$<CXX_COMPILER_ID:Clang>:${CMAKE_SOURCE_DIR}/linker/LPC11U35_CLANG.ld>
                       ${CMAKE_SOURCE_DIR}/linker/cortexM0_plus.ld
     )
 endif()
+
+target_link_options(${PROJECT_NAME}
+    PUBLIC
+        $<$<CXX_COMPILER_ID:GNU>:-T ${CMAKE_SOURCE_DIR}/linker/LPC11U35.ld>
+        $<$<CXX_COMPILER_ID:Clang>:-T ${CMAKE_SOURCE_DIR}/linker/LPC11U35_CLANG.ld>
+)
 
 #target_link_libraries(${PROJECT_NAME}
 #        PRIVATE
