@@ -12,5 +12,8 @@ MEMORY
     RAM(rwx)  : ORIGIN = 0x20000000, LENGTH = 0x4000  /* 16K for XMC-1100 */
 }
 
+stack_size = DEFINED(stack_size) ? stack_size : 1024;
+no_init_size = 4;
+
 INCLUDE "cortexM0_plus.ld"
 
