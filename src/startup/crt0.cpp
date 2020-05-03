@@ -23,10 +23,11 @@ extern "C" void __my_startup()
     // Call all static ctor initializations.
     crt::init_ctors();
 
-    // Jump to main (and never return).
-//    asm volatile("ldr r3, =main");
-//    asm volatile("blx r3");
-    main_app();
+    // Jump to main
+    int ret = main_app();
+
+    if(ret != 0)
+        __asm__("BKPT #01");
 
 
     // Call all destructors

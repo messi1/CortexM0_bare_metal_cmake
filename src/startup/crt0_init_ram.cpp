@@ -1,14 +1,11 @@
 #include <cstddef>
 #include <cstdint>
 
-extern "C"
-{
-  extern std::uintptr_t _rom_data_begin; // Start address for the initialization values of the rom-to-ram section.
-  extern std::uintptr_t _data_begin;     // Start address for the .data section.
-  extern std::uintptr_t _data_end;       // End address for the .data section.
-  extern std::uintptr_t _bss_start_;      // Start address for the .bss section.
-  extern std::uintptr_t _bss_end_;        // End address for the .bss section.
-}
+extern std::uintptr_t _rom_data_begin; // Start address for the initialization values of the rom-to-ram section.
+extern std::uintptr_t _data_begin;     // Start address for the .data section.
+extern std::uintptr_t _data_end;       // End address for the .data section.
+extern std::uintptr_t _bss_start_;      // Start address for the .bss section.
+extern std::uintptr_t _bss_end_;        // End address for the .bss section.
 
 namespace crt
 {

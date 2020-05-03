@@ -1,21 +1,20 @@
 //#include <algorithm>
 //#include <iterator>
 
-extern "C"
-{
-    struct ctor_type {
-      typedef void (*function_type)();
-    };
 
-    //  extern ctor_type::function_type _ctors_end[];
-    //  extern ctor_type::function_type _ctors_begin[];
-    extern ctor_type::function_type __init_array_start[];
-    extern ctor_type::function_type __init_array_end[];
-    extern ctor_type::function_type __preinit_array_start[];
-    extern ctor_type::function_type __preinit_array_end[];
-    extern ctor_type::function_type __fini_array_start[];
-    extern ctor_type::function_type __fini_array_end[];
-}
+struct ctor_type {
+    using function_ptr = auto (*)() -> void;
+};
+
+//  extern ctor_type::function_type _ctors_end[];
+//  extern ctor_type::function_type _ctors_begin[];
+extern ctor_type::function_ptr __init_array_start[];
+extern ctor_type::function_ptr __init_array_end[];
+extern ctor_type::function_ptr __preinit_array_start[];
+extern ctor_type::function_ptr __preinit_array_end[];
+extern ctor_type::function_ptr __fini_array_start[];
+extern ctor_type::function_ptr __fini_array_end[];
+
 
 namespace crt {
     void init_ctors();
