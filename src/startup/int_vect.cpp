@@ -68,13 +68,11 @@ void __hard_fault_handler()
 }
 
 namespace {
-    typedef void (*isr_type)();
-    typedef void (*isr_handler_t)();
-    typedef void (*ptr_func_t)();
+    using function_ptr = auto (*)() -> void;
 } // namespace
 
 __attribute__((section(".isr_vector"), used))
-const ptr_func_t __isr_vectors[] = {
+const function_ptr __isr_vectors[] = {
     __initial_stack_pointer, // 0x0000, initial stack pointer,
     __my_startup,            // 0x0004, reset, initial program counter
     __nmi_handler,           // 0x0008, non-maskable interrupt,
