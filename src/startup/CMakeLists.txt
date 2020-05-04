@@ -16,8 +16,7 @@ get_property(COMMON_LINK_OPTIONS
 target_sources(${PROJECT_NAME}
     PRIVATE
         ${CMAKE_CURRENT_SOURCE_DIR}/crt0.cpp
-        ${CMAKE_CURRENT_SOURCE_DIR}/crt0_init_ram.cpp
-        ${CMAKE_CURRENT_SOURCE_DIR}/crt1.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/crt0_init.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/int_vect.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/tiny_new.cpp
 )

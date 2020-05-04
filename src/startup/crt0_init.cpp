@@ -7,11 +7,26 @@ extern std::uintptr_t _data_end;       // End address for the .data section.
 extern std::uintptr_t _bss_start_;      // Start address for the .bss section.
 extern std::uintptr_t _bss_end_;        // End address for the .bss section.
 
+struct ctor_type {
+    using function_ptr = auto (*)() -> void;
+};
+
+//  extern ctor_type::function_type _ctors_end[];
+//  extern ctor_type::function_type _ctors_begin[];
+extern ctor_type::function_ptr __init_array_start[];
+extern ctor_type::function_ptr __init_array_end[];
+extern ctor_type::function_ptr __preinit_array_start[];
+extern ctor_type::function_ptr __preinit_array_end[];
+extern ctor_type::function_ptr __fini_array_start[];
+extern ctor_type::function_ptr __fini_array_end[];
+
 namespace crt
 {
   void init_ram();
   void copy_data();
   void zero_bss();
+  void init_ctors();
+  void init_dtors();
 }
 
 void crt::copy_data()
@@ -53,4 +68,42 @@ void crt::init_ram()
 //  std::fill(static_cast<memory_aligned_type*>(static_cast<void*>(&_bss_begin)),
 //            static_cast<memory_aligned_type*>(static_cast<void*>(&_bss_end)),
 //            static_cast<memory_aligned_type>(0U));
+}
+
+void crt::init_ctors() {
+    //    auto array = _ctors_begin;
+    //    while( array < _ctors_end )
+    //    {
+    //        (*array)();
+    //        array++;
+    //    }
+
+    int size = __preinit_array_end - __preinit_array_start;
+    for (int i = 0; i < size; i++)
+    __preinit_array_start[i]();
+
+    size = __init_array_end - __init_array_start;
+    for (int i = 0; i < size; i++)
+    __init_array_start[i]();
+
+    //    array = __init_array_start;
+    //    while( array < __init_array_end )
+    //    {
+    //        (*array)();
+    //        array++;
+    //    }
+}
+
+void crt::init_dtors()
+{
+    int size = __fini_array_end - __fini_array_start;
+    for (int i = 0; i < size; i++)
+    __fini_array_start[i]();
+
+    //    auto array = __fini_array_start;
+    //    while( array < __fini_array_end )
+    //    {
+    //        (*array)();
+    //        array++;
+    //    }
 }

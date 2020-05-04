@@ -7,7 +7,7 @@ namespace crt
 }
 
 // main application
-int main_app();
+extern int main_app();
 
 extern "C" void __my_startup()
 {
