@@ -1,11 +1,12 @@
 #include <cstddef>
 #include <cstdint>
 
-extern std::uintptr_t _rom_data_begin; // Start address for the initialization values of the rom-to-ram section.
+
+extern const std::uintptr_t _rom_data_begin; // Start address for the initialization values of the rom-to-ram section.
 extern std::uintptr_t _data_begin;     // Start address for the .data section.
-extern std::uintptr_t _data_end;       // End address for the .data section.
+extern const std::uintptr_t _data_end;       // End address for the .data section.
 extern std::uintptr_t _bss_start_;      // Start address for the .bss section.
-extern std::uintptr_t _bss_end_;        // End address for the .bss section.
+extern const std::uintptr_t _bss_end_;        // End address for the .bss section.
 
 struct ctor_type {
     using function_ptr = auto (*)() -> void;
@@ -13,12 +14,12 @@ struct ctor_type {
 
 //  extern ctor_type::function_type _ctors_end[];
 //  extern ctor_type::function_type _ctors_begin[];
-extern ctor_type::function_ptr __init_array_start[];
-extern ctor_type::function_ptr __init_array_end[];
-extern ctor_type::function_ptr __preinit_array_start[];
-extern ctor_type::function_ptr __preinit_array_end[];
-extern ctor_type::function_ptr __fini_array_start[];
-extern ctor_type::function_ptr __fini_array_end[];
+extern const ctor_type::function_ptr __init_array_start[];
+extern const ctor_type::function_ptr __init_array_end[];
+extern const ctor_type::function_ptr __preinit_array_start[];
+extern const ctor_type::function_ptr __preinit_array_end[];
+extern const ctor_type::function_ptr __fini_array_start[];
+extern const ctor_type::function_ptr __fini_array_end[];
 
 namespace crt
 {
@@ -80,11 +81,11 @@ void crt::init_ctors() {
 
     int size = __preinit_array_end - __preinit_array_start;
     for (int i = 0; i < size; i++)
-    __preinit_array_start[i]();
+        __preinit_array_start[i]();
 
     size = __init_array_end - __init_array_start;
     for (int i = 0; i < size; i++)
-    __init_array_start[i]();
+        __init_array_start[i]();
 
     //    array = __init_array_start;
     //    while( array < __init_array_end )
@@ -96,9 +97,9 @@ void crt::init_ctors() {
 
 void crt::init_dtors()
 {
-    int size = __fini_array_end - __fini_array_start;
+    const int size = __fini_array_end - __fini_array_start;
     for (int i = 0; i < size; i++)
-    __fini_array_start[i]();
+        __fini_array_start[i]();
 
     //    auto array = __fini_array_start;
     //    while( array < __fini_array_end )
