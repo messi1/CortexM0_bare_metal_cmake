@@ -43,9 +43,6 @@
  *
  */
 
-/* entry point */
-ENTRY(__my_startup)
-
 SECTIONS
 {
     /****************************/

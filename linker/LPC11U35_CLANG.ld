@@ -14,9 +14,7 @@ MEMORY
 }
 
 /* gcc: extern declaration so that the value appears correctly for the LPC checksum calculation */
-EXTERN(__my_startup)
-EXTERN(__nmi_handler)
-EXTERN(__hard_fault_handler)
+ENTRY(__my_startup)
 
 INCLUDE "cortexM0_plus.ld"
 
