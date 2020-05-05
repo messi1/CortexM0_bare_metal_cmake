@@ -7,7 +7,7 @@ set_property(GLOBAL
         $<$<COMPILE_LANGUAGE:CXX>:-fno-exceptions> # Disable exception handling.
         $<$<COMPILE_LANGUAGE:CXX>:-fno-unwind-tables> # it suppresses the generation of static unwind tables
         $<$<COMPILE_LANGUAGE:CXX>:-fno-rtti> # Disable generation of information about every class with virtual functions for use by the C++ run-time type identification features
-        $<$<COMPILE_LANGUAGE:CXX>:-fno-use-cxa-atexit> # will use .fini for static global destructors and atexit() for static destructors in functions
+        #$<$<COMPILE_LANGUAGE:CXX>:-fno-use-cxa-atexit> # will use .fini for static global destructors and atexit() for static destructors in functions
         $<$<COMPILE_LANGUAGE:CXX>:-fno-threadsafe-statics> # Do not emit the extra code to use the routines specified in the C++ ABI for thread-safe initialization of local statics. You can use this option to reduce code size slightly in code that doesn’t need to be thread-safe.
         $<$<COMPILE_LANGUAGE:CXX>:-Woverloaded-virtual> # Warn when a function declaration hides virtual functions from a base class.
         $<$<CXX_COMPILER_ID:GNU>:-fstrict-volatile-bitfields> # This option should be used if accesses to volatile bit-fields should use a single access of the width of the field’s type, aligned to a natural alignment if possible.
@@ -26,9 +26,12 @@ set_property(GLOBAL
         -Wold-style-cast # Warn if an old-style (C-style) cast to a non-void type is used within a C++ program.
         -Wshadow # Warn whenever a local variable or type declaration shadows another variable, parameter, type, class member (in C++), or whenever a built-in function is shadowed
         -Wpedantic # Issue all the warnings demanded by strict ISO C and ISO C++
+        -Wunused
+        -Wunreachable-code
         -pedantic-errors # Give an error whenever the base standard requires a diagnostic
-        -ffunction-sections # Place each function or data item into its own section in the output file if the target supports arbitrary sections.
-        -fdata-sections # Place each function or data item into its own section in the output file if the target supports arbitrary sections.
+#        -ffunction-sections # Place each function or data item into its own section in the output file if the target supports arbitrary sections.
+#        -fdata-sections # Place each function or data item into its own section in the output file if the target supports arbitrary sections.
+        -Wl,--gc-sections
         -fno-threadsafe-statics # Do not emit the extra code to use the routines specified in the C++ ABI for thread-safe initialization of local statics.
         -ffreestanding # directs the compiler to limit this program to only those features available in the freestanding environment.        
         -nodefaultlibs
@@ -57,8 +60,11 @@ set_property(GLOBAL
 
 set_property(GLOBAL
         PROPERTY COMMON_PRIVATE_LINK_OPTIONS
-        $<$<CXX_COMPILER_ID:CLANG>:-fuse-ld=lld>
+        $<$<CXX_COMPILER_ID:Clang>:-fuse-ld=lld>
         -fno-exceptions
         -nodefaultlibs
         -nostdlib
+        $<$<CXX_COMPILER_ID:GCC>:-nostartfiles>
+#        -ffunction-sections
+#        -fdata-sections
 )
