@@ -17,7 +17,8 @@ target_sources(${PROJECT_NAME}
     PRIVATE
         ${CMAKE_CURRENT_SOURCE_DIR}/crt0.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/crt0_init.cpp
-        ${CMAKE_CURRENT_SOURCE_DIR}/int_vect.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/interrupt_handler.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/interrupt_vector.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/tiny_new.cpp
 )
 

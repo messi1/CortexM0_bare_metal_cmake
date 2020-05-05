@@ -24,13 +24,15 @@ Many GCC back ends support attributes to indicate that a function is an
 interrupt handler, which tells the compiler to generate function entry and exit
 sequences that differ from those from regular functions. The exact syntax and
 behavior are target-specific; refer to the following subsections for detail
+
+1. A reset exception occurs (Reset input was asserted)
+2. Load MSP (Main Stack Pointer) register initial value from address 0x00
+3. Load reset handler vector address from address 0x04
+4. Reset handler executes in Thread Mode
+5. Optional: Reset handler branches to the main program
 */
 
-#ifdef LPC11UXX
-/* make the LPC_CHECKSUM known to the c compiler, value will be calculated by
- * the linker script */
-extern "C" void LPC_CHECKSUM(void);
-#endif
+using function_ptr = auto (*)() -> void;
 
 extern "C"
 {
@@ -38,45 +40,35 @@ extern "C"
     void __my_startup() __attribute__((interrupt));
     void __nmi_handler() __attribute__((interrupt));
     void __hard_fault_handler() __attribute__((interrupt));
-    void __stop();
+    void __stop() __attribute__((interrupt));
+    void __vector_unused_irq() __attribute__((weak, interrupt, alias("__stop")));
+    void __svc_handler() __attribute__((weak, interrupt, alias("__stop")));
+    void __pend_sv_handler() __attribute__((weak, interrupt, alias("__stop")));
+    void __sys_tick_handler() __attribute__((weak, interrupt, alias("__stop")));
+    void __wdt_handler() __attribute__((weak, interrupt, alias("__stop")));
+#ifdef LPC11UXX
+/* make the LPC_CHECKSUM known to the c compiler, value will be calculated by the linker script */
+    void LPC_CHECKSUM(void);
+#endif
 }
-
-void __vector_unused_irq() __attribute__((weak, interrupt, alias("__stop")));
-void __svc_handler() __attribute__((weak, interrupt, alias("__stop")));
-void __pend_sv_handler() __attribute__((weak, interrupt, alias("__stop")));
-void __sys_tick_handler() __attribute__((weak, interrupt, alias("__stop")));
-void __wdt_handler() __attribute__((weak, interrupt, alias("__stop")));
 
 void __stop()
 {
-  while (true)
-    ;
+    while (true);
 }
 
-/* "__nmi_handler" is used in the ld script to calculate the checksum for
- * LPC11Uxx */
+/* "__nmi_handler" is used in the ld script to calculate the checksum for LPC11Uxx */
 void __nmi_handler()
 {
-  while (true);
+    while (true);
 }
-
-/* "__hard_fault_handler" is used in the ld script to calculate the checksum for
- * LPC11Uxx */
-void __hard_fault_handler()
-{
-  while (true);
-}
-
-namespace {
-    using function_ptr = auto (*)() -> void;
-} // namespace
 
 __attribute__((section(".isr_vector"), used))
 const function_ptr __isr_vectors[] = {
     __initial_stack_pointer, // 0x0000, initial stack pointer,
     __my_startup,            // 0x0004, reset, initial program counter
-    __nmi_handler,           // 0x0008, non-maskable interrupt,
-    __hard_fault_handler,    // 0x000C, hard fault exception non-privilege access,
+    __nmi_handler,           // 0x0008, non-maskable interrupt occured,
+    __hard_fault_handler,    // 0x000C, hard fault exception non-privilege access, Any type of fault occurred
     nullptr,                 // 0x0010, memory management exception,
     nullptr,                 // 0x0014, bus fault exception, Instruction prefetch abort or data access error
     nullptr,                 // 0x0018, usage fault exception, Invalid instructions
@@ -92,8 +84,8 @@ const function_ptr __isr_vectors[] = {
     __svc_handler,       // 0x002C, svc handler, System Service Call (SVC) – used for RTOS entry calls
     __vector_unused_irq, // 0x0030, reserved,
     __vector_unused_irq, // 0x0034, reserved,
-    __pend_sv_handler,   // 0x0038, pending svc, Pended System Call – used for RTOS context switching
-    __sys_tick_handler,  // 0x003C, system tick handler,
+    __pend_sv_handler,   // 0x0038, Pended System Call – Software generated interrupt
+    __sys_tick_handler,  // 0x003C, Internal system timer caused interrupt,
     __vector_unused_irq, // 0x0040, GPIO port 0, pin 0 irq handler, First Device Specific IRQ (0-239)
     __vector_unused_irq, // 0x0044, GPIO port 0, pin 1 irq handler,
     __vector_unused_irq, // 0x0048, GPIO port 0, pin 2 irq handler,
