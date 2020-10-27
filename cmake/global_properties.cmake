@@ -16,6 +16,8 @@ set_property(GLOBAL
         $<$<CXX_COMPILER_ID:GNU>:-Wsuggest-final-types> # Warn about types with virtual methods where code quality would be improved
         $<$<CXX_COMPILER_ID:GNU>:-Wsuggest-final-methods> # Warn about virtual methods where code quality would be improved if the method were declared with the C++11 final specifier
         $<$<CXX_COMPILER_ID:GNU>:-Wstringop-overflow> # Warn for calls to string manipulation functions such as memcpy and strcpy that are determined to overflow the destination buffer
+        $<$<CXX_COMPILER_ID:GNU>:-Wl,--gc-sections> #  Input Section and Garbage Collection. It is often useful to mark sections that should not be eliminated wildcard entry with KEEP(), as in KEEP(*(.init))
+        $<$<CXX_COMPILER_ID:GNU>:-finline-limit=32> # GCC limits the size of functions that can be inlined
         -Wuninitialized # Warn if an automatic variable is used without first being initialized
         ${COMPILE_WARNING_AS_ERROR} #-Werror # Make all warnings into errors
         -Wall # This enables all the warnings about constructions that some users consider questionable
@@ -27,11 +29,10 @@ set_property(GLOBAL
         -Wshadow # Warn whenever a local variable or type declaration shadows another variable, parameter, type, class member (in C++), or whenever a built-in function is shadowed
         -Wpedantic # Issue all the warnings demanded by strict ISO C and ISO C++
         -Wunused
-        -Wunreachable-code
+        $<$<CXX_COMPILER_ID:Clang>:-Wunreachable-code-aggressive>
         -pedantic-errors # Give an error whenever the base standard requires a diagnostic
 #        -ffunction-sections # Place each function or data item into its own section in the output file if the target supports arbitrary sections.
 #        -fdata-sections # Place each function or data item into its own section in the output file if the target supports arbitrary sections.
-        -Wl,--gc-sections
         -fno-threadsafe-statics # Do not emit the extra code to use the routines specified in the C++ ABI for thread-safe initialization of local statics.
         -ffreestanding # directs the compiler to limit this program to only those features available in the freestanding environment.        
         -nodefaultlibs
@@ -51,11 +52,10 @@ set_property(GLOBAL
 #        -fno-utf-support #(foreach over utf strings)
 #        -fno-boundscheck
 #        -fno-switch-error
-#        -finline-functions
-#        -finline-limit=32
-#        -mfloat-abi=soft
-#        -mno-unaligned-access
-#        -mno-long-calls
+        -finline-functions
+        -mfloat-abi=soft
+        -mno-unaligned-access
+        -mno-long-calls
 )
 
 set_property(GLOBAL
