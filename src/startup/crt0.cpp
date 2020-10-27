@@ -1,10 +1,9 @@
 
-namespace crt
-{
-  void init_ram();
-  void init_ctors();
-  void init_dtors();
-}
+namespace crt {
+void init_ram();
+void init_ctors();
+void init_dtors();
+} // namespace crt
 
 // main application
 extern int main_app();
@@ -26,13 +25,14 @@ extern "C" void __my_startup()
     // Jump to main
     int ret = main_app();
 
-    if(ret != 0)
+    if (ret != 0)
+    {
         __asm__("BKPT #01");
-
+    }
 
     // Call all destructors
     crt::init_dtors();
 
     // Catch an unexpected return from main.
-    while(true);
+    while (true) {}
 }

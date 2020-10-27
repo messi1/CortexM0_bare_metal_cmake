@@ -1,25 +1,21 @@
-#include <cstddef>
-#include <cstdint>
+extern const unsigned int * const _rom_data_begin; // Start address for the initialization values of the rom-to-ram section.s
+extern       unsigned int * const _data_begin;     // Start address for the .data section.
+extern const unsigned int * const _data_end;       // End address for the .data section.
+extern       unsigned int * const _bss_start_;     // Start address for the .bss section.
+extern const unsigned int * const _bss_end_;       // End address for the .bss section.
 
+typedef void (*ptr_func_t)();
+using function_ptr = void (*)();
 
-extern const std::uintptr_t _rom_data_begin; // Start address for the initialization values of the rom-to-ram section.
-extern std::uintptr_t _data_begin;     // Start address for the .data section.
-extern const std::uintptr_t _data_end;       // End address for the .data section.
-extern std::uintptr_t _bss_start_;      // Start address for the .bss section.
-extern const std::uintptr_t _bss_end_;        // End address for the .bss section.
+extern function_ptr _ctors_end[];
+extern function_ptr _ctors_begin[];
+extern const function_ptr __init_array_start[];
+extern const function_ptr __init_array_end[];
+extern const function_ptr __preinit_array_start[];
+extern const function_ptr __preinit_array_end[];
+extern       function_ptr __fini_array_start[];
+extern const function_ptr __fini_array_end[];
 
-struct ctor_type {
-    using function_ptr = auto (*)() -> void;
-};
-
-//  extern ctor_type::function_type _ctors_end[];
-//  extern ctor_type::function_type _ctors_begin[];
-extern const ctor_type::function_ptr __init_array_start[];
-extern const ctor_type::function_ptr __init_array_end[];
-extern const ctor_type::function_ptr __preinit_array_start[];
-extern const ctor_type::function_ptr __preinit_array_end[];
-extern const ctor_type::function_ptr __fini_array_start[];
-extern const ctor_type::function_ptr __fini_array_end[];
 
 namespace crt
 {
@@ -32,10 +28,9 @@ namespace crt
 
 void crt::copy_data()
 {
-    const std::uintptr_t *data_end = &_data_end;
-    const std::uintptr_t *rom_src  = &_rom_data_begin;
-    std::uintptr_t       *rom_ptr  = &_data_begin;
-    while( rom_ptr < data_end )
+    const unsigned int *rom_src  = _rom_data_begin;
+    unsigned int       *rom_ptr  = _data_begin;
+    while( rom_ptr < _data_end )
     {
         *rom_ptr++ = *rom_src++;
     }
@@ -45,10 +40,9 @@ void crt::copy_data()
  */
 void crt::zero_bss()
 {
-    const std::uintptr_t *bss_end = &_bss_end_;
-    std::uintptr_t       *bss_ptr = &_bss_start_;
+    unsigned int *bss_ptr = _bss_start_;
 
-    while( bss_ptr < bss_end )
+    while( bss_ptr < _bss_end_ )
     {
         *bss_ptr++ = 0;
     }
@@ -87,6 +81,10 @@ void crt::init_ctors() {
     for (int i = 0; i < size; i++)
         __init_array_start[i]();
 
+    size = _ctors_end - _ctors_begin;
+    for (int i = 0; i < size; i++)
+        _ctors_begin[i]();
+
     //    array = __init_array_start;
     //    while( array < __init_array_end )
     //    {
@@ -97,14 +95,14 @@ void crt::init_ctors() {
 
 void crt::init_dtors()
 {
-    const int size = __fini_array_end - __fini_array_start;
-    for (int i = 0; i < size; i++)
-        __fini_array_start[i]();
+//    const int size = __fini_array_end - __fini_array_start;
+//    for (int i = 0; i < size; i++)
+//        __fini_array_start[i]();
 
-    //    auto array = __fini_array_start;
-    //    while( array < __fini_array_end )
-    //    {
-    //        (*array)();
-    //        array++;
-    //    }
+        auto array = __fini_array_start;
+        while( array < __fini_array_end )
+        {
+            (*array)();
+            array++;
+        }
 }

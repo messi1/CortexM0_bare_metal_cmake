@@ -18,7 +18,11 @@
    rather than just eliminate exceptions.
  */
 
-extern "C" void __cxa_pure_virtual() { while(1); }
+extern "C" void __cxa_pure_virtual()
+{
+    while (1)
+        ;
+}
 
 namespace std {
 struct nothrow_t
@@ -26,40 +30,43 @@ struct nothrow_t
     //
     explicit nothrow_t() = default;
 };
-enum class align_val_t : std::size_t {};
+enum class align_val_t : std::size_t
+{
+};
 } // namespace std
 
-[[nodiscard]] void *operator new(std::size_t /*size*/)
+[[nodiscard]] void* operator new(std::size_t /*size*/)
 {
     //
-    return reinterpret_cast<void *>(0x48000000) /*malloc(size)*/;
+    return reinterpret_cast<void*>(0x48000000) /*malloc(size)*/;
 }
 
-[[nodiscard]] void *operator new(std::size_t, void *p) noexcept
+[[nodiscard]] void* operator new(std::size_t, void* p) noexcept
 {
     //
     return p;
 }
 
-[[nodiscard]]void *operator new(std::size_t /*size*/, std::align_val_t /*alignment*/, const std::nothrow_t &) noexcept
+[[nodiscard]] void* operator new(std::size_t /*size*/, std::align_val_t /*alignment*/,
+                                 const std::nothrow_t&) noexcept
 {
     //
-    return reinterpret_cast<void *>(0x48000000);
+    return reinterpret_cast<void*>(0x48000000);
 }
 
-[[nodiscard]] void *operator new(std::size_t /*size*/, const std::nothrow_t & /*nothrow_value*/) noexcept
+[[nodiscard]] void* operator new(std::size_t /*size*/, const std::nothrow_t& /*nothrow_value*/) noexcept
 {
     //
-    return reinterpret_cast<void *>(0x48000000) /*malloc(size)*/;
+    return reinterpret_cast<void*>(0x48000000) /*malloc(size)*/;
 }
 
-void *operator new[](std::size_t /*size*/, const std::nothrow_t &) noexcept
+void* operator new[](std::size_t /*size*/, const std::nothrow_t&) noexcept
 {
     //
-    return reinterpret_cast<void *>(0x48000000) /*malloc(size)*/;
+    return reinterpret_cast<void*>(0x48000000) /*malloc(size)*/;
 }
 
-void operator delete(void * /*ptr*/)
+void operator delete(void* /*ptr*/)
 {
     //
     /*free(ptr);*/
@@ -71,25 +78,25 @@ void operator delete(void* /*ptr*/, unsigned int)
     /*free(ptr);*/
 }
 
-void operator delete(void * /*ptr*/, const std::nothrow_t &)
+void operator delete(void* /*ptr*/, const std::nothrow_t&)
 {
     //
     /*free(ptr);*/
 }
 
-void operator delete[](void * /*ptr*/)
+void operator delete[](void* /*ptr*/)
 {
     //
     /*free(ptr);*/
 }
 
-void operator delete [](void* /*ptr*/, unsigned int)
+void operator delete[](void* /*ptr*/, unsigned int)
 {
     //
     /*free(ptr);*/
 }
 
-void operator delete[](void * /*ptr*/, const std::nothrow_t &)
+void operator delete[](void* /*ptr*/, const std::nothrow_t&)
 {
     //
     /*free(ptr);*/

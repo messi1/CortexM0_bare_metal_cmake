@@ -13,6 +13,11 @@ get_property(COMMON_COMPILE_OPTIONS
 get_property(COMMON_LINK_OPTIONS
         GLOBAL PROPERTY COMMON_PRIVATE_LINK_OPTIONS)
 
+target_include_directories(${PROJECT_NAME}
+    PRIVATE
+    ${CMAKE_SOURCE_DIR}/include
+)
+
 target_sources(${PROJECT_NAME}
     PRIVATE
         ${CMAKE_CURRENT_SOURCE_DIR}/crt0.cpp
