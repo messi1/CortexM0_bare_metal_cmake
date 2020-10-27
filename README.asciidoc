@@ -1,0 +1,19 @@
+# BareMetalCMake
+Simple bare metal project with cmake and C++1x for gcc and clang
+
+== Running cmake for the example
+cmake -DCMAKE_BUILD_TYPE=Debug -DPROCESSOR_CONFIG=LPC11U35 -DCROSS_COMPILER_PATH=/usr/local ../CortexM0_bare_metal_cmake/
+
+== Building clang under Ubuntu 20.04
+
+. git clone https://github.com/llvm/llvm-project.git
+
+. cd llvm-project
+
+. mkdir build && cd build
+
+. cmake -DCMAKE_BUILD_TYPE=Release -DLLVM_ENABLE_PROJECTS="lld;clang;clang-tools-extra;libcxx;libcxxabi;lldb" -DCMAKE_INSTALL_PREFIX=/usr/local -G "Ninja" ../llvm
+
+. ninja
+
+. ninja install
