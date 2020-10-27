@@ -21,7 +21,9 @@ namespace util
     static void bit_set() { *reinterpret_cast<volatile reg_value_type*>(address) |= static_cast<reg_value_type>(1ULL << value); }
     static void bit_clr() { *reinterpret_cast<volatile reg_value_type*>(address) &= static_cast<reg_value_type>(~static_cast<reg_value_type>(1ULL << value)); }
     static void bit_not() { *reinterpret_cast<volatile reg_value_type*>(address) ^= static_cast<reg_value_type>(1ULL << value); }
-    static bool bit_get() { return (static_cast<volatile reg_value_type>(reg_get() & static_cast<reg_value_type>(1ULL << value)) != static_cast<reg_value_type>(0U)); }
+    static bool bit_get() {
+        return (static_cast<volatile reg_value_type>(reg_get() & static_cast<reg_value_type>(1ULL << value)) != static_cast<reg_value_type>(0U));
+    }
   };
 }
 

@@ -18,8 +18,11 @@ target_include_directories(${PROJECT_NAME}
 target_sources(${PROJECT_NAME}
     INTERFACE
         ${CMAKE_CURRENT_SOURCE_DIR}/communication_base.h
+        ${CMAKE_CURRENT_SOURCE_DIR}/communication_buffer_depth_one_byte.h
         ${CMAKE_CURRENT_SOURCE_DIR}/noncopyable.h
         ${CMAKE_CURRENT_SOURCE_DIR}/port_pin.h
+        ${CMAKE_CURRENT_SOURCE_DIR}/spi.h
+        ${CMAKE_CURRENT_SOURCE_DIR}/spi.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/reg_access_dynamic.h
         ${CMAKE_CURRENT_SOURCE_DIR}/reg_access_static.h
 )
