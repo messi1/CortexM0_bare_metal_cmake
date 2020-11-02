@@ -5,6 +5,7 @@ ARG USER_UID=1000
 ARG USER_GID=$USER_UID
 
 ENV TZ=Europe/Zurich
+ENV DEBIAN_FRONTEND=noninteractive 
 
 ENTRYPOINT ["/bin/bash"]
 RUN apt update && apt -y upgrade && apt -y install \
@@ -38,13 +39,14 @@ RUN apt update && apt -y upgrade && apt -y install \
     picocom \
     openocd \
     libusb-1.0-0-dev \
+    udev \
     && apt -y autoremove && apt -y autoclean && apt -y clean && exit 0
     
 RUN wget --quiet https://www.segger.com/downloads/jlink/Ozone_Linux_x86_64.deb && \
-    apt -y install Ozone_Linux_x86_64.deb
+    apt -y install ./Ozone_Linux_x86_64.deb
     
-RUN wget --quiet https://www.segger.com/downloads/jlink/JLink_Linux_x86_64.deb && \
-    apt -y install JLink_Linux_x86_64.deb
+RUN wget --quiet --post-data="accept_license_agreement=accepted" https://www.segger.com/downloads/jlink/JLink_Linux_x86_64.deb && \
+    apt -y install ./JLink_Linux_x86_64.deb
     
 RUN wget --quiet https://armkeil.blob.core.windows.net/developer/Files/downloads/gnu-rm/9-2020q2/gcc-arm-none-eabi-9-2020-q2-update-x86_64-linux.tar.bz2 && \
     tar xvf gcc-arm-none-eabi-9-2020-q2-update-x86_64-linux.tar.bz2 -C /usr/local
@@ -58,7 +60,7 @@ RUN mkdir stm32 && cd stm32 && \
     mkdir build-stlink && cd build-stlink && \
     cmake ../stlink && \
     make && make install && \
-    cp stlink/config/udev/rules.d/49-stlinkv* /etc/udev/rules.d/
+    cp ../stlink/config/udev/rules.d/49-stlinkv* /etc/udev/rules.d/
 
-
-
+# FROM baremetal as baremetal2
+# RUN mkdir -p /tmp/.X11-unix && chmod 1777 /tmp/.X11-unix
