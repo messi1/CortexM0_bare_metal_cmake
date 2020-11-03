@@ -20,7 +20,7 @@ cmake -DCMAKE_BUILD_TYPE=Debug -DPROCESSOR_CONFIG=LPC11U35 -DCROSS_COMPILER_PATH
 
 
 == Using Docker image
-. docker build --tag bulletinboard:1.0 ./tools
+. docker build --tag BareMetalTools:1.0 ./tools
 . docker image ls
 . xhost +"local:docker@"
 . docker run -e DISPLAY=$DISPLAY --device=/dev/ttyUSB0 -v /tmp/.X11-unix:/tmp/.X11-unix -it --entrypoint /bin/bash <Image hash>
