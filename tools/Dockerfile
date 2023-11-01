@@ -1,4 +1,4 @@
-FROM ubuntu:lunar-20230615 AS baremetal
+FROM ubuntu:mantic-20231011 AS baremetal
 
 ARG USERNAME=vscode
 ARG USER_UID=1000
